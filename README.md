@@ -1,8 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# 방금 생성한 로그인 페이지까지 반영해서 Readme 다시 만들어줘
-
-````md
 # Plan‑It / Text‑Editor
 
 Self‑Hosted Markdown Editor (Next.js App Router + OverType)
@@ -49,7 +44,6 @@ Self‑Hosted Markdown Editor (Next.js App Router + OverType)
 ```json
 { "ok": true, "path": "docs/a.md", "content": "# hello" }
 ```
-````
 
 ### PUT `/api/file/[...path]`
 
