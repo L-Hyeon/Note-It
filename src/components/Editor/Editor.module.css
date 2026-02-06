@@ -1,0 +1,8 @@
+.editor {
+  width: 100%;
+  height: 100%;
+}
+.editor :global(button[aria-label="Italic"]),
+.editor :global(button[title="Italic"]) {
+  display: none !important;
+}
