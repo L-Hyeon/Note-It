@@ -1,0 +1,50 @@
+.list {
+  width: 80dvw;
+  height: 70dvh;
+
+  overflow: auto; /* 스크롤은 이 박스 내부에서만 */
+  overflow-x: hidden; /* 가로 스크롤은 보통 원치 않으셔서 차단 */
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  gap: 8px;
+
+  align-content: start; /* 그리드 전체를 위로 붙임(아래는 빈 공간) */
+  grid-auto-rows: max-content; /* 각 row 높이를 콘텐츠 크기로 고정 */
+
+  /* 선택 사항: 스크롤바 영역 점프를 줄이고 싶을 때 */
+  scrollbar-gutter: stable;
+}
+
+.item {
+}
+
+.button {
+  width: 100%;
+  text-align: left;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  display: block;
+}
+
+.button:hover {
+  border-color: #cbd5e1;
+  background: #fafafa;
+}
+
+.buttonSelected {
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.meta {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
