@@ -1,0 +1,14 @@
+.nav {
+  width: 100dvw;
+  height: 50px;
+  border-bottom: 1px solid black;
+  padding: 0 5dvw 0 5dvw;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.5rem;
+}

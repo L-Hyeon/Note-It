@@ -50,6 +50,9 @@ export function List({ items, selectedPath, onSelect }: Props) {
         {items.map((it, index) => {
           const selected = it.path === selectedPath;
 
+          const hasMeta =
+            typeof it.size === "number" || typeof it.mtimeMs === "string";
+
           return (
             <motion.li
               key={it.path}
@@ -69,17 +72,14 @@ export function List({ items, selectedPath, onSelect }: Props) {
                 ].join(" ")}>
                 <div className={styles.path}>{it.path}</div>
 
-                {(typeof it.size === "number" ||
-                  typeof it.mtimeMs === "number") && (
+                {hasMeta && (
                   <div className={styles.meta}>
                     {typeof it.size === "number" ? `${it.size} bytes` : ""}
                     {typeof it.size === "number" &&
-                    typeof it.mtimeMs === "number"
+                    typeof it.mtimeMs === "string"
                       ? " · "
                       : ""}
-                    {typeof it.mtimeMs === "number"
-                      ? new Date(it.mtimeMs).toISOString()
-                      : ""}
+                    {typeof it.mtimeMs === "string" ? it.mtimeMs : ""}
                   </div>
                 )}
               </Link>

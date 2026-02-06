@@ -20,9 +20,16 @@ export function EditorClient({ filePath, initialValue }: Props) {
   const [saving, setSaving] = React.useState(false);
   const [msg, setMsg] = React.useState("");
 
-  // 저장 기준값(저장 성공 시 갱신)
   const savedRef = React.useRef(initialValue);
   const dirty = value !== savedRef.current;
+
+  const clearTimerRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+    };
+  }, []);
 
   async function onSave() {
     try {
@@ -40,7 +47,9 @@ export function EditorClient({ filePath, initialValue }: Props) {
 
       savedRef.current = value;
       setMsg("저장되었습니다.");
-      setTimeout(() => setMsg(""), 800);
+
+      if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+      clearTimerRef.current = window.setTimeout(() => setMsg(""), 900);
     } catch (e: any) {
       setMsg(`저장 실패: ${String(e?.message ?? e)}`);
     } finally {
@@ -52,7 +61,7 @@ export function EditorClient({ filePath, initialValue }: Props) {
     <section className={styles.page}>
       <div className={styles.topBar}>
         <div className={styles.left}>
-          <Link className={styles.backLink} href="/">
+          <Link href="/" className={[styles.action, styles.backLink].join(" ")}>
             ← Back
           </Link>
         </div>
@@ -67,7 +76,11 @@ export function EditorClient({ filePath, initialValue }: Props) {
         <div className={styles.right}>
           <button
             type="button"
-            className={styles.saveButton}
+            className={[
+              styles.action,
+              styles.saveButton,
+              dirty ? styles.saveEnabled : "",
+            ].join(" ")}
             onClick={onSave}
             disabled={saving || !dirty}>
             {saving ? "Saving..." : "✓ Save"}
@@ -75,7 +88,11 @@ export function EditorClient({ filePath, initialValue }: Props) {
         </div>
       </div>
 
-      {msg ? <div className={styles.saveMsg}>{msg}</div> : null}
+      {msg ? (
+        <div className={styles.saveMsg} aria-live="polite">
+          {msg}
+        </div>
+      ) : null}
 
       <div className={styles.editorWrap}>
         <Editor value={value} toolbar={true} onChange={setValue} />

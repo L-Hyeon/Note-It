@@ -1,50 +1,43 @@
 .list {
-  width: 80dvw;
-  height: 70dvh;
-
-  overflow: auto; /* 스크롤은 이 박스 내부에서만 */
-  overflow-x: hidden; /* 가로 스크롤은 보통 원치 않으셔서 차단 */
-
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  display: grid;
-  gap: 8px;
-
-  align-content: start; /* 그리드 전체를 위로 붙임(아래는 빈 공간) */
-  grid-auto-rows: max-content; /* 각 row 높이를 콘텐츠 크기로 고정 */
-
-  /* 선택 사항: 스크롤바 영역 점프를 줄이고 싶을 때 */
-  scrollbar-gutter: stable;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
 .item {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .button {
-  width: 100%;
-  text-align: left;
-  border-radius: 10px;
-  padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  cursor: pointer;
   display: block;
+  width: 100%;
+  height: 100%;
+
+  text-align: left;
+  padding: 10px 12px;
+
+  color: var(--text);
+  text-decoration: none;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
-.button:hover {
-  border-color: #cbd5e1;
-  background: #fafafa;
-}
-
-.buttonSelected {
-  border-color: #4f46e5;
-  background: rgba(79, 70, 229, 0.08);
+.item:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent) 8%);
 }
 
 .meta {
   margin-top: 6px;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--muted);
 }

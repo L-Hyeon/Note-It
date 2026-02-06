@@ -5,7 +5,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Atomy";
   src: url("/fonts/Atomy-Medium.ttf") format("truetype");
@@ -13,13 +12,56 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Atomy";
   src: url("/fonts/Atomy-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+:root {
+  --bg: #f7f7fb;
+  --surface: #ffffff;
+  --text: #14121a;
+  --muted: #5b5564;
+
+  --accent: #6d5b7b;
+  --accent-contrast: #ffffff;
+
+  --border: rgba(20, 18, 26, 0.12);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  color-scheme: light;
+}
+
+html[data-theme="light"] {
+  --bg: #f7f7fb;
+  --surface: #ffffff;
+  --text: #14121a;
+  --muted: #5b5564;
+
+  --accent: #6d5b7b;
+  --accent-contrast: #ffffff;
+
+  --border: rgba(20, 18, 26, 0.12);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --bg: #0a0a0a; /* near-black 권장 */
+  --surface: #141414;
+  --text: #f3f0ff;
+  --muted: #b9b2c9;
+
+  --accent: #e6d9ff;
+  --accent-contrast: #0a0a0a;
+
+  --border: rgba(230, 217, 255, 0.16);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
 }
 
 html,
@@ -119,6 +161,7 @@ video {
   vertical-align: -webkit-baseline-middle;
   vertical-align: -moz-middle-with-baseline;
   box-sizing: border-box;
+  color: var(--accent);
 }
 
 html,
@@ -145,7 +188,11 @@ footer {
 }
 
 a {
-  color: inherit;
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 ol,
@@ -189,4 +236,19 @@ textarea {
   overflow: auto;
   vertical-align: top;
   resize: vertical;
+}
+::placeholder {
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+/* Overtype 에디터의 드롭다운 */
+html[data-theme="light"] {
+  --bg-primary: var(--surface);
+  --bg-secondary: var(--surface);
+  --toolbar-bg: var(--surface);
+}
+html[data-theme="dark"] {
+  --bg-primary: var(--surface);
+  --bg-secondary: var(--surface);
+  --toolbar-bg: var(--surface);
 }
