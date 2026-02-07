@@ -26,6 +26,7 @@ export default function LoginClient() {
 
       if (!r.ok) {
         const j = await r.json().catch(() => null);
+        setPw("");
         setMsg(j?.error ?? "로그인에 실패했습니다.");
         return;
       }
