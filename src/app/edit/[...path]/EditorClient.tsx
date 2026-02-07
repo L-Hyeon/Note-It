@@ -61,7 +61,7 @@ export function EditorClient({ filePath, initialValue }: Props) {
     <section className={styles.page}>
       <div className={styles.topBar}>
         <div className={styles.left}>
-          <Link href="/" className={[styles.action, styles.backLink].join(" ")}>
+          <Link href="/list" className={[styles.action, styles.backLink].join(" ")}>
             ← Back
           </Link>
         </div>
