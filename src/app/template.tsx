@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import NavBar from "@/components/NavBar/NavBar";
+import { Footer } from "@/components/Footer/Footer";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       transition={{ duration: 0.18 }}>
       <NavBar />
       {children}
+      <Footer />
     </motion.body>
   );
 }

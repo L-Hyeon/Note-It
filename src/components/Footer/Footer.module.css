@@ -1,0 +1,12 @@
+.footer {
+  border-top: 1px solid var(--muted);
+  box-sizing: border-box;
+  background: --bg;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.link {
+  font-size: 1rem;
+}
