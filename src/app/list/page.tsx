@@ -6,7 +6,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const files = await getFileList({ rootDir: "/codeserver/Note", ext: ".md" });
+  const files = await getFileList({
+    rootDir: process.env.FILES_ROOT ?? "/files",
+    exts: [".md", ".txt"],
+  });
 
   const fmt = new Intl.DateTimeFormat("ko-KR", {
     timeZone: "Asia/Seoul",

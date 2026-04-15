@@ -15,19 +15,22 @@ const FILES_ROOT = process.env.FILES_ROOT ?? "/files";
 function resolveUnderRoot(rootAbs: string, segments: string[]) {
   const resolved = path.resolve(rootAbs, ...segments);
   const prefix = rootAbs.endsWith(path.sep) ? rootAbs : rootAbs + path.sep;
-  if (!(resolved + path.sep).startsWith(prefix))
+  if (!(resolved + path.sep).startsWith(prefix)) {
     throw new Error("Forbidden path");
+  }
   return resolved;
 }
 
 export default async function EditPage({ params }: Props) {
-  const { path: segments = [] } = await params;
+  const { path: rawSegments = [] } = await params;
+  const segments = rawSegments.map((s) => decodeURIComponent(s));
   const relPath = segments.join("/");
 
-  if (!relPath.endsWith(".md")) {
+  const ext = path.extname(relPath).toLowerCase();
+  if (![".md", ".txt"].includes(ext)) {
     return (
       <main className={styles.main}>
-        <div className={styles.notice}>MarkDown 파일만 열 수 있습니다.</div>
+        <div className={styles.notice}>.md, .txt 파일만 열 수 있습니다.</div>
       </main>
     );
   }

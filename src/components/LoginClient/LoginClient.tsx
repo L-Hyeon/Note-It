@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import styles from "./page.module.css";
+import styles from "./LoginClient.module.css";
 
 export default function LoginClient() {
   const router = useRouter();

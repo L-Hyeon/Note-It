@@ -12,15 +12,15 @@ export type FileListItem = {
 
 export type GetFileListOptions = {
   rootDir?: string; // 기본: process.env.FILES_ROOT || "/files"
-  ext?: string; // 기본: ".md"
-  ignoreHidden?: boolean; // 기본: true (".git" 같은 숨김 폴더 스킵)
-  maxFiles?: number; // 기본: 20000 (안전장치)
+  exts?: string[]; // 기본: [".md"]
+  ignoreHidden?: boolean; // 기본: true
+  maxFiles?: number; // 기본: 20000
 };
 
 async function walk(
   rootAbs: string,
   dirAbs: string,
-  ext: string,
+  exts: string[],
   ignoreHidden: boolean,
   out: FileListItem[],
   maxFiles: number,
@@ -33,16 +33,19 @@ async function walk(
     const abs = path.join(dirAbs, ent.name);
 
     if (ent.isDirectory()) {
-      await walk(rootAbs, abs, ext, ignoreHidden, out, maxFiles);
+      await walk(rootAbs, abs, exts, ignoreHidden, out, maxFiles);
+      if (out.length >= maxFiles) return;
       continue;
     }
 
     if (!ent.isFile()) continue;
-    if (!ent.name.endsWith(ext)) continue;
+
+    const ext = path.extname(ent.name).toLowerCase();
+    if (!exts.includes(ext)) continue;
 
     const st = await stat(abs);
 
-    const rel = path.relative(rootAbs, abs).split(path.sep).join("/"); // Windows 구분자 방지
+    const rel = path.relative(rootAbs, abs).split(path.sep).join("/");
     out.push({
       path: rel,
       absPath: abs,
@@ -58,14 +61,14 @@ export async function getFileList(
   options: GetFileListOptions = {},
 ): Promise<FileListItem[]> {
   const rootDir = options.rootDir ?? process.env.FILES_ROOT ?? "/files";
-  const ext = options.ext ?? ".md";
+  const exts = (options.exts ?? [".md"]).map((v) => v.toLowerCase());
   const ignoreHidden = options.ignoreHidden ?? true;
   const maxFiles = options.maxFiles ?? 20_000;
 
   const rootAbs = path.resolve(rootDir);
 
   const out: FileListItem[] = [];
-  await walk(rootAbs, rootAbs, ext, ignoreHidden, out, maxFiles);
+  await walk(rootAbs, rootAbs, exts, ignoreHidden, out, maxFiles);
 
   out.sort((a, b) => a.path.localeCompare(b.path));
   return out;
