@@ -18,11 +18,13 @@ function toApiHref(filePath: string) {
 export function EditorClient({ filePath, initialValue }: Props) {
   const [value, setValue] = React.useState(initialValue);
   const [saving, setSaving] = React.useState(false);
-  const [msg, setMsg] = React.useState("");
+  const [toast, setToast] = React.useState<{
+    msg: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const savedRef = React.useRef(initialValue);
   const dirty = value !== savedRef.current;
-
   const clearTimerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
@@ -31,10 +33,15 @@ export function EditorClient({ filePath, initialValue }: Props) {
     };
   }, []);
 
+  function showToast(msg: string, type: "success" | "error") {
+    setToast({ msg, type });
+    if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
+    clearTimerRef.current = window.setTimeout(() => setToast(null), 2000);
+  }
+
   async function onSave() {
     try {
       setSaving(true);
-      setMsg("");
 
       const r = await fetch(toApiHref(filePath), {
         method: "PUT",
@@ -46,12 +53,9 @@ export function EditorClient({ filePath, initialValue }: Props) {
       if (!j.ok) throw new Error(j.error ?? "Save failed");
 
       savedRef.current = value;
-      setMsg("저장되었습니다.");
-
-      if (clearTimerRef.current) window.clearTimeout(clearTimerRef.current);
-      clearTimerRef.current = window.setTimeout(() => setMsg(""), 900);
+      showToast("저장되었습니다.", "success");
     } catch (e: any) {
-      setMsg(`저장 실패: ${String(e?.message ?? e)}`);
+      showToast(`저장 실패: ${String(e?.message ?? e)}`, "error");
     } finally {
       setSaving(false);
     }
@@ -61,7 +65,9 @@ export function EditorClient({ filePath, initialValue }: Props) {
     <section className={styles.page}>
       <div className={styles.topBar}>
         <div className={styles.left}>
-          <Link href="/list" className={[styles.action, styles.backLink].join(" ")}>
+          <Link
+            href="/list"
+            className={[styles.action, styles.backLink].join(" ")}>
             ← Back
           </Link>
         </div>
@@ -88,11 +94,16 @@ export function EditorClient({ filePath, initialValue }: Props) {
         </div>
       </div>
 
-      {msg ? (
-        <div className={styles.saveMsg} aria-live="polite">
-          {msg}
+      {toast && (
+        <div
+          className={[
+            styles.toast,
+            toast.type === "error" ? styles.toastError : styles.toastSuccess,
+          ].join(" ")}
+          aria-live="polite">
+          {toast.msg}
         </div>
-      ) : null}
+      )}
 
       <div className={styles.editorWrap}>
         <Editor value={value} toolbar={true} onChange={setValue} />

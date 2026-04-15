@@ -176,11 +176,12 @@ main {
   justify-content: flex-start;
   align-items: center;
   gap: 4%;
-  height: calc(100% - 80px);
+  height: calc(100dvh - 100px);
 }
 
 footer {
-  height: 30px;
+  width: 100dvw;
+  height: 50px;
   font-size: 10px;
   text-align: right;
   color: #999;
