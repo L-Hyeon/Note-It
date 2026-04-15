@@ -14,6 +14,8 @@ export default function LoginClient() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+
     setLoading(true);
     setMsg("");
 
@@ -31,8 +33,11 @@ export default function LoginClient() {
         return;
       }
 
-      const next = sp.get("next") || "/list";
-      router.push(next);
+      const next = sp.get("next");
+      const target =
+        next && next.startsWith("/") && !next.startsWith("//") ? next : "/list";
+
+      router.replace(target);
       router.refresh();
     } catch (err: any) {
       setMsg(String(err?.message ?? err));

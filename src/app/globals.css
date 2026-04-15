@@ -232,6 +232,10 @@ input[type="search"] {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
+input[type="password"] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 textarea {
   overflow: auto;
   vertical-align: top;

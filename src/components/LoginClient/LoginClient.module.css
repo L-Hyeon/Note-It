@@ -16,7 +16,8 @@
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  caret-color: var(--accent); /* 또는 var(--text) */
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--accent);
   outline: none;
 }
 .input:hover {
@@ -26,6 +27,14 @@
   outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
   outline-offset: 2px;
   border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
+  box-shadow: 0 0 0 1000px var(--bg) inset;
+  transition: background-color 9999s ease;
 }
 
 .button {
