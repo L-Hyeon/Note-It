@@ -11,6 +11,8 @@
   gap: 10px;
 
   margin-inline: auto;
+
+  border-radius: 10px;
 }
 
 .item {
