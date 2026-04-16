@@ -24,7 +24,7 @@ export default async function Page() {
   }));
 
   return (
-    <main>
+    <main className={styles.main}>
       <h2 className={styles.title}>File Editor</h2>
       <List items={items} />
     </main>
